@@ -7,8 +7,11 @@ const bookSchema = require('../models/Book');
 
 const resolvers = {
   Query: {
-    me: async () => {
-      return User.find({});
+    me: async (parent, args, context) => {
+      if (!context.user) {
+        console.error(context)
+      }
+      return await User.findOne({_id: context.user._id});
     },
     
   },
